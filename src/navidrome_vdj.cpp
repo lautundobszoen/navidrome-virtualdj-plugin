@@ -3,7 +3,6 @@
 #include <windows.h>
 #include <winhttp.h>
 #include <wincred.h>
-#include <credui.h>
 #include <bcrypt.h>
 #include <wincrypt.h>
 
