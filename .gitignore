@@ -7,3 +7,4 @@ build/
 *.exp
 *.lib
 Navidrome.dll
+!dist/Navidrome.dll

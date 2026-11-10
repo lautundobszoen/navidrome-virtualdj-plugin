@@ -43,7 +43,7 @@ cmake --build build --config Release
 
 1. VirtualDJ vollständig schließen.
 2. Den Ordner `%USERPROFILE%\Documents\VirtualDJ\Plugins64\OnlineSources` anlegen, falls er noch nicht existiert.
-3. `build\Release\Navidrome.dll` dorthin kopieren.
+3. Die fertige [Navidrome.dll](https://github.com/lautundobszoen/navidrome-virtualdj-plugin/raw/refs/heads/main/dist/Navidrome.dll) herunterladen und in diesen Ordner kopieren. Die SHA-256-Prüfsumme steht in [Navidrome.dll.sha256](https://github.com/lautundobszoen/navidrome-virtualdj-plugin/blob/main/dist/Navidrome.dll.sha256). Wer selbst bauen möchte, kann weiterhin `build\Release\Navidrome.dll` verwenden.
 4. VirtualDJ neu starten und unter **Online Music** die Quelle **Navidrome** öffnen.
 5. Beim Verbinden die Basisadresse des eigenen Navidrome-Servers eintragen und anschließend die Navidrome-Anmeldedaten eingeben. Die Option zum Speichern ist freiwillig.
 
@@ -51,7 +51,7 @@ cmake --build build --config Release
 
 Das Plugin verwendet Navidromes Subsonic-kompatible API-Endpunkte für `getPlaylists`, `getArtists`, `getGenres`, `getPlaylist`, `getArtist`, `getAlbum`, `getSongsByGenre`, `search3`, `stream` und `getCoverArt`.
 
-Das Paket enthält den Quellcode, aber keine fertige Windows-DLL. Die DLL muss auf Windows mit MSVC gebaut werden.
+Eine fertige Windows-x64-DLL liegt unter [`dist/Navidrome.dll`](dist/Navidrome.dll); sie wird mit Visual Studio 2022/MSVC gebaut. Der Workflow [Build Windows DLL](.github/workflows/build-windows.yml) erstellt außerdem bei Änderungen am Plugin einen herunterladbaren CI-Build. Ein eigener Build bleibt optional und kann wie oben mit PowerShell oder CMake ausgeführt werden.
 
 ## Quellen und Komponenten
 

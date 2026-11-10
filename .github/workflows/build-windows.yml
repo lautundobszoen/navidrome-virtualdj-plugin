@@ -1,0 +1,60 @@
+name: Build Windows DLL
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-windows.yml'
+      - 'CMakeLists.txt'
+      - 'build-windows.ps1'
+      - 'include/**'
+      - 'src/**'
+      - 'third_party/**'
+  pull_request:
+    paths:
+      - '.github/workflows/build-windows.yml'
+      - 'CMakeLists.txt'
+      - 'build-windows.ps1'
+      - 'include/**'
+      - 'src/**'
+      - 'third_party/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Windows x64 / MSVC
+    runs-on: windows-2022
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Configure x64 build
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build Release DLL
+        run: cmake --build build --config Release --parallel
+
+      - name: Verify DLL
+        shell: pwsh
+        run: |
+          $dll = Join-Path $env:GITHUB_WORKSPACE 'build\Release\Navidrome.dll'
+          if (-not (Test-Path -LiteralPath $dll -PathType Leaf)) {
+            throw "Expected DLL was not produced: $dll"
+          }
+          $file = Get-Item -LiteralPath $dll
+          if ($file.Length -le 0) {
+            throw 'The generated DLL is empty.'
+          }
+          Get-FileHash -LiteralPath $dll -Algorithm SHA256 | Format-List
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Navidrome-Windows-x64
+          path: build/Release/Navidrome.dll
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 90
