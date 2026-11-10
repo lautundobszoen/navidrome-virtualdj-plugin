@@ -1,0 +1,9 @@
+build/
+.vs/
+*.user
+*.suo
+*.pdb
+*.ilk
+*.exp
+*.lib
+Navidrome.dll
